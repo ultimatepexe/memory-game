@@ -10,6 +10,7 @@ interface ICard {
 }
 
 export default function App() {
+  const [clicks, setClicks] = useState(0);
   const [cards, setCards] = useState<ICard[]>([
     { id: 1, value: 1, image: "analise.png" },
     { id: 2, value: 2, image: "buddywapple.png" },
@@ -63,6 +64,8 @@ export default function App() {
   function flipCard(card: ICard): void {
     if (flippedCards.length >= 2 || flippedCards.includes(card) || matchedCards.includes(card)) return;
 
+    setClicks(clicks + 1);
+
     const newFlippedCards = [...flippedCards, card];
     setFlippedCards(newFlippedCards);
 
@@ -107,11 +110,15 @@ export default function App() {
           </div>
         ))}
       </main>
+      <p className="pb-2">
+        Clicks: {clicks}
+      </p>
       <button
         onClick={() => {
           shuffleCards([...cards]);
           setFlippedCards([]);
           setMatchedCards([]);
+          setClicks(0);
         }}
       >
         <FontAwesomeIcon icon={faRotateRight} />
